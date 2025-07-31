@@ -2,6 +2,7 @@ package com.learning.springbootWebApplication.controllers;
 
 import com.learning.springbootWebApplication.dto.EmployeeDTO;
 import com.learning.springbootWebApplication.entities.EmployeeEntity;
+import com.learning.springbootWebApplication.exceptions.ResourceNotFoundException;
 import com.learning.springbootWebApplication.repositories.EmployeeRepository;
 import com.learning.springbootWebApplication.services.EmployeeService;
 import com.sun.net.httpserver.HttpServer;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -31,8 +33,10 @@ public class EmployeeController {
         Optional<EmployeeDTO> employeeDTO =  employeeService.getEmployeeById(employeeID);
         return employeeDTO
                 .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResourceNotFoundException("Employee Not found with id " + employeeID));
     }
+
+
 
     @GetMapping
     public ResponseEntity<List<EmployeeDTO> >getAllEmployees(@RequestParam(required = false, name = "newAge") Integer age, @RequestParam(required = false) String sortBy){
