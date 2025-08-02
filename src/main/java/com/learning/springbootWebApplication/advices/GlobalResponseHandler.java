@@ -12,7 +12,7 @@ public class GlobalResponseHandler implements ResponseBodyAdvice {
 
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
-        return true;
+        return true; // we need to make it true then only our response will be in proper format
     }
 
     @Override
