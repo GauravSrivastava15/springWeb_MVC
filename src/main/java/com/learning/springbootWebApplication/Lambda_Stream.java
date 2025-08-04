@@ -55,3 +55,7 @@ class WalkFast implements Walkable{
         return steps * 2;
     }
 }
+
+//A functional interface in Java is an interface that contains exactly one abstract method.
+//This specific characteristic allows it to be used with lambda expressions and method references,
+//which are key features introduced in Java 8 to support functional programming
