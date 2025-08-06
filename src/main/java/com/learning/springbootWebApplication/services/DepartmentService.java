@@ -2,6 +2,7 @@ package com.learning.springbootWebApplication.services;
 
 import com.learning.springbootWebApplication.dto.DepartmentDTO;
 import com.learning.springbootWebApplication.entities.DepartmentEntity;
+import com.learning.springbootWebApplication.exceptions.ResourceNotFoundException;
 import com.learning.springbootWebApplication.repositories.DepartmentRepository;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -38,5 +39,20 @@ public class DepartmentService {
         DepartmentEntity dataToSave = modelMapper.map(data, DepartmentEntity.class);
         DepartmentEntity savedData = departmentRepository.save(dataToSave);
         return modelMapper.map(savedData, DepartmentDTO.class);
+    }
+
+    public DepartmentDTO updateDepartmentById(@Valid DepartmentDTO departmentDTO, Integer departmentId) {
+        boolean exists = departmentRepository.existsById(departmentId);
+        if(!exists) throw new ResourceNotFoundException("Department with id " + departmentId + " not found");
+        DepartmentEntity departmentEntity = modelMapper.map(departmentDTO, DepartmentEntity.class);
+        departmentEntity.setId(departmentId);
+        DepartmentEntity updatedEntity = departmentRepository.save(departmentEntity);
+        return modelMapper.map(updatedEntity, DepartmentDTO.class);
+    }
+
+    public void deleteDepartmentById(Integer departmentId) {
+        boolean exists = departmentRepository.existsById(departmentId);
+        if(!exists) throw new ResourceNotFoundException("Department with id " + departmentId + " not found");
+        departmentRepository.deleteById(departmentId);
     }
 }
