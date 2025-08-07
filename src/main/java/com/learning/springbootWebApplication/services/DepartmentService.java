@@ -50,6 +50,21 @@ public class DepartmentService {
         return modelMapper.map(updatedEntity, DepartmentDTO.class);
     }
 
+        // another way to update the department by getting the department and setting different properties
+//    public DepartmentDTO updateDepartmentById(@Valid DepartmentDTO departmentDTO, Integer departmentId) {
+//        DepartmentEntity existing = departmentRepository.findById(departmentId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Department with id " + departmentId + " not found"));
+//
+//        // Only update fields (not ID)
+//        existing.setTitle(departmentDTO.getTitle());
+//        existing.setIsActive(departmentDTO.getIsActive());
+//        existing.setCreatedAt(departmentDTO.getCreatedAt());
+//
+//        DepartmentEntity updated = departmentRepository.save(existing);
+//        return modelMapper.map(updated, DepartmentDTO.class);
+//    }
+
+
     public void deleteDepartmentById(Integer departmentId) {
         boolean exists = departmentRepository.existsById(departmentId);
         if(!exists) throw new ResourceNotFoundException("Department with id " + departmentId + " not found");
